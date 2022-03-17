@@ -15,13 +15,13 @@ def parse_args():
     return parser.parse_args()
 
 def get_contributor_avatars(repo):
-    github_api = f"https://api.github.com/repos/{repo}/contributors"
+    github_api = f"https://api.github.com/repos/{repo}/stats/contributors"
     response = requests.get(github_api)
     content = json.loads(response.text)
     avatar_urls = []
 
     for item in content:
-        avatar_urls.append(item['avatar_url'])
+        avatar_urls.append(item['author']['avatar_url'])
     return avatar_urls
 
 def get_img_from_url(url):
