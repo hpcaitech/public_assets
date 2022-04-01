@@ -30,6 +30,9 @@ def get_img_from_url(url):
     return img
 
 def crop_avatar_into_circle(img: Image.Image):
+    if img.format == 'PNG':
+        img = img.convert('RGB')
+        
     # Open the input image as numpy array, convert to RGB
     img_np = np.array(img)
     h, w = img.size
