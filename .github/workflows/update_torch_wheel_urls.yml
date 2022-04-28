@@ -1,0 +1,35 @@
+name: Update torch wheel urls
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  generate-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.7.12"
+
+      - name: install libraries
+        run: |
+          pip install requests beautifulsoup4 packaging
+      - name: update wheel urls
+        run: |
+          cd colossalai/torch_wheel
+          python ./fetch_torch_versions.py
+          pwd
+      - name: generate avatar image grid
+        run: |
+          python ./colossalai/scripts/generate_avatar_grid.py --repo "hpcaitech/ColossalAI" --output ./colossalai/img/contributor_avatar.png
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "noreply@github.com"
+          git add "*.png"
+          git diff --staged --quiet || git commit -m "Update contributor avatar gallery files."
+          git push
