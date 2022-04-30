@@ -1,2 +1,4 @@
 pydantic
 beautifulsoup4
+requests
+packaging
