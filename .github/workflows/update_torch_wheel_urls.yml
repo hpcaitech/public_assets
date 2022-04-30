@@ -23,9 +23,6 @@ jobs:
           cd colossalai/torch_wheel
           python ./fetch_torch_versions.py
           pwd
-      - name: generate avatar image grid
-        run: |
-          python ./colossalai/scripts/generate_avatar_grid.py --repo "hpcaitech/ColossalAI" --output ./colossalai/img/contributor_avatar.png
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
