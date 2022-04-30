@@ -1,4 +1,0 @@
-https://download.pytorch.org/whl/cu115/torch-1.11.0%2Bcu115-cp37-cp37m-linux_x86_64.whl
-https://download.pytorch.org/whl/cu115/torch-1.11.0%2Bcu115-cp38-cp38-linux_x86_64.whl
-https://download.pytorch.org/whl/cu115/torch-1.11.0%2Bcu115-cp39-cp39-linux_x86_64.whl
-https://download.pytorch.org/whl/cu115/torch-1.11.0%2Bcu115-cp310-cp310-linux_x86_64.whl

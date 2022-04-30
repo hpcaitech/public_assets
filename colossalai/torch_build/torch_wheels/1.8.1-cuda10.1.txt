@@ -1,0 +1,4 @@
+pip	https://download.pytorch.org/whl/cu101/torch-1.8.1%2Bcu101-cp36-cp36m-linux_x86_64.whl	3.6
+pip	https://download.pytorch.org/whl/cu101/torch-1.8.1%2Bcu101-cp37-cp37m-linux_x86_64.whl	3.7
+pip	https://download.pytorch.org/whl/cu101/torch-1.8.1%2Bcu101-cp38-cp38-linux_x86_64.whl	3.8
+pip	https://download.pytorch.org/whl/cu101/torch-1.8.1%2Bcu101-cp39-cp39-linux_x86_64.whl	3.9
