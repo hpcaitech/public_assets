@@ -16,9 +16,9 @@ jobs:
           python-version: "3.7.12"
       - name: update wheel urls
         run: |
-          cd colossalai/torch_wheel
+          cd colossalai/torch_build
           pip install -r ./requirements.txt
-          python ./fetch_torch_versions.py
+          python ./crawl_torch_distribution.py
           pwd
       - name: Commit changes
         run: |

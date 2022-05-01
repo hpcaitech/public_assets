@@ -1,0 +1,4 @@
+conda	https://anaconda.org/conda-forge/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-cuda112py39hda16ee4_0.tar.bz2	3.9
+conda	https://anaconda.org/conda-forge/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-cuda112py38h16f0ee0_0.tar.bz2	3.8
+conda	https://anaconda.org/conda-forge/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-cuda112py37h1c59e6c_0.tar.bz2	3.7
+conda	https://anaconda.org/conda-forge/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-cuda112py310h5c3c7ff_0.tar.bz2	3.10
