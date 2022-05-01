@@ -1,5 +1,4 @@
 import requests
-from yaml import parse
 from .base_crawler import BaseCrawler
 from .wheel_record import WheelRecord, WheelRecordCollection, Method
 from typing import List

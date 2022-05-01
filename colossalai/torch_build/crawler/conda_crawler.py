@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup
-from importlib_metadata import version
 import re
 import requests
 from .base_crawler import BaseCrawler

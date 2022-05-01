@@ -1,5 +1,4 @@
 from packaging import version
-from pytest import param
 
 
 def has_larger_or_euqal_cuda_version(ver1, ver2):
