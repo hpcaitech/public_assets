@@ -2,15 +2,3 @@ conda	https://anaconda.org/pytorch/pytorch/1.11.0/download/linux-64/pytorch-1.11
 conda	https://anaconda.org/pytorch/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-py3.7_cuda11.1_cudnn8.0.5_0.tar.bz2	3.7	-c+pytorch
 conda	https://anaconda.org/pytorch/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-py3.8_cuda11.1_cudnn8.0.5_0.tar.bz2	3.8	-c+pytorch
 conda	https://anaconda.org/pytorch/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-py3.10_cuda11.1_cudnn8.0.5_0.tar.bz2	3.10	-c+pytorch
-conda	https://anaconda.org/conda-forge/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-cuda111py39h0b78595_0.tar.bz2	3.9	-c+conda-forge
-conda	https://anaconda.org/conda-forge/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-cuda111py38hf27a110_0.tar.bz2	3.8	-c+conda-forge
-conda	https://anaconda.org/conda-forge/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-cuda111py37h2eaf6d3_0.tar.bz2	3.7	-c+conda-forge
-conda	https://anaconda.org/conda-forge/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-cuda111py310hdfc4b5c_0.tar.bz2	3.10	-c+conda-forge
-conda	https://anaconda.org/pytorch/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-py3.9_cuda11.1_cudnn8.0.5_0.tar.bz2	3.9	-c+pytorch
-conda	https://anaconda.org/pytorch/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-py3.7_cuda11.1_cudnn8.0.5_0.tar.bz2	3.7	-c+pytorch
-conda	https://anaconda.org/pytorch/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-py3.8_cuda11.1_cudnn8.0.5_0.tar.bz2	3.8	-c+pytorch
-conda	https://anaconda.org/pytorch/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-py3.10_cuda11.1_cudnn8.0.5_0.tar.bz2	3.10	-c+pytorch
-conda	https://anaconda.org/conda-forge/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-cuda111py39h0b78595_0.tar.bz2	3.9	-c+conda-forge
-conda	https://anaconda.org/conda-forge/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-cuda111py38hf27a110_0.tar.bz2	3.8	-c+conda-forge
-conda	https://anaconda.org/conda-forge/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-cuda111py37h2eaf6d3_0.tar.bz2	3.7	-c+conda-forge
-conda	https://anaconda.org/conda-forge/pytorch/1.11.0/download/linux-64/pytorch-1.11.0-cuda111py310hdfc4b5c_0.tar.bz2	3.10	-c+conda-forge

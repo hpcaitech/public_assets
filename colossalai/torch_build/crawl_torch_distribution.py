@@ -28,7 +28,7 @@ def write_record_collection_to_file(record_collection: WheelRecordCollection, ro
         avai_python_dist = []
         with open(filename, 'r') as f:
             for line in f:
-                avai_python_dist.append(line.strip().split()[-1])
+                avai_python_dist.append(line.strip().split()[2])
         
         with open(filename, 'a') as f:
             for record in record_collection.records:
