@@ -9,6 +9,10 @@ from abc import ABC, abstractmethod
 
 class CondaCrawler(BaseCrawler, ABC):
 
+    def __init__(self, name, crawl_src, download_prefix, min_torch_version, min_cuda_version, flags) -> None:
+        self.flags = flags
+        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version)
+
     def crawl(self) -> List[WheelRecordCollection]:
         # indexed by coarse_torch_versiopn -> torch_version -> cuda_version -> python_version
         # coarse_torch_version only includes the major and minor version
@@ -74,7 +78,7 @@ class CondaCrawler(BaseCrawler, ABC):
                     wheel_record_list = []
                     for python_version, filename in python_versioned_wheel_info.items():
                         url = self.get_download_url(filename)
-                        record = WheelRecord(method=Method.CONDA, url=url, py_ver=python_version)        
+                        record = WheelRecord(method=Method.CONDA, url=url, py_ver=python_version, flags=self.flags)        
                         wheel_record_list.append(record)
                     record_collection = WheelRecordCollection(torch_ver=torch_version, cuda_ver=cuda_version, records=wheel_record_list)
                     rearranged_wheel_info.append(record_collection)
@@ -130,7 +134,8 @@ class PyTorchCondaChannelCrawler(CondaCrawler):
         name = 'conda'
         crawl_src = 'https://anaconda.org/pytorch/pytorch/files'
         download_prefix = 'https://anaconda.org/pytorch/pytorch/1.11.0/download'
-        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version)
+        flags = ['-c', 'pytorch']
+        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version, flags)
 
     def _parse_file_name_for_version(self, filename):
         version_parts = filename.split('/')[1].split('-')
@@ -144,7 +149,8 @@ class CondaForgeCrawler(CondaCrawler):
         name = 'conda'
         crawl_src = 'https://anaconda.org/conda-forge/pytorch/files'
         download_prefix = 'https://anaconda.org/conda-forge/pytorch/1.11.0/download'
-        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version)
+        flags = ['-c', 'conda-forge']
+        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version, flags)
 
     def _parse_file_name_for_version(self, filename):
         version_parts = filename.split('/')[1].split('-')

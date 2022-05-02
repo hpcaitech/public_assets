@@ -1,5 +1,5 @@
 import re
-from pydantic import BaseModel, validator, StrictStr
+from pydantic import BaseModel, validator
 from enum import Enum
 from typing import List
 
@@ -11,6 +11,7 @@ class WheelRecord(BaseModel):
     method: Method
     url: str
     py_ver: str
+    flags: List[str] = None
 
     @validator('py_ver')
     def check_py_ver(cls, v):
