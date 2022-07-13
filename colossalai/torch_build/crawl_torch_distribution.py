@@ -4,7 +4,7 @@ import os.path as osp
 from crawler import PipCrawler, WheelRecordCollection, CondaForgeCrawler, PyTorchCondaChannelCrawler, ReleasePageCrawler
 from packaging import version
 
-MIN_TORCH_VERSION = '1.8.0'
+MIN_TORCH_VERSION = '1.10.2'
 MIN_CUDA_VERSION = '10.2'
 
 def write_record_collection_to_file(record_collection: WheelRecordCollection, root='./torch_wheels'):
