@@ -4,7 +4,8 @@ import os.path as osp
 from crawler import PipCrawler, WheelRecordCollection, CondaForgeCrawler, PyTorchCondaChannelCrawler, ReleasePageCrawler
 from packaging import version
 
-MIN_TORCH_VERSION = '1.10.2'
+MIN_TORCH_VERSION = '1.10.1'
+EXCLUDE_TORCH_VERSION = ['1.10.2']
 MIN_CUDA_VERSION = '10.2'
 
 def write_record_collection_to_file(record_collection: WheelRecordCollection, root='./torch_wheels'):
@@ -55,10 +56,10 @@ def crawl_and_write(crawler):
         write_record_collection_to_file(record_collection)
 
 def main():
-    pip_crawler = PipCrawler(min_cuda_version=MIN_CUDA_VERSION, min_torch_version=MIN_TORCH_VERSION)
-    release_page_crawler = ReleasePageCrawler(min_cuda_version=MIN_CUDA_VERSION, min_torch_version=MIN_TORCH_VERSION)
-    pytorch_channel_crawler = PyTorchCondaChannelCrawler(min_cuda_version=MIN_CUDA_VERSION, min_torch_version=MIN_TORCH_VERSION)
-    conda_forge_crawler = CondaForgeCrawler(min_cuda_version=MIN_CUDA_VERSION, min_torch_version=MIN_TORCH_VERSION)
+    pip_crawler = PipCrawler(min_cuda_version=MIN_CUDA_VERSION, min_torch_version=MIN_TORCH_VERSION, exclude_torch_version=EXCLUDE_TORCH_VERSION)
+    release_page_crawler = ReleasePageCrawler(min_cuda_version=MIN_CUDA_VERSION, min_torch_version=MIN_TORCH_VERSION, exclude_torch_version=EXCLUDE_TORCH_VERSION)
+    pytorch_channel_crawler = PyTorchCondaChannelCrawler(min_cuda_version=MIN_CUDA_VERSION, min_torch_version=MIN_TORCH_VERSION, exclude_torch_version=EXCLUDE_TORCH_VERSION)
+    conda_forge_crawler = CondaForgeCrawler(min_cuda_version=MIN_CUDA_VERSION, min_torch_version=MIN_TORCH_VERSION, exclude_torch_version=EXCLUDE_TORCH_VERSION)
 
     crawl_and_write(pip_crawler)
     crawl_and_write(release_page_crawler)

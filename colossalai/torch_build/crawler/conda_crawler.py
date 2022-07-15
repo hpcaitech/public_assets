@@ -9,9 +9,9 @@ from abc import ABC, abstractmethod
 
 class CondaCrawler(BaseCrawler, ABC):
 
-    def __init__(self, name, crawl_src, download_prefix, min_torch_version, min_cuda_version, flags) -> None:
+    def __init__(self, name, crawl_src, download_prefix, min_torch_version, min_cuda_version, exclude_torch_version, flags) -> None:
         self.flags = flags
-        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version)
+        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version, exclude_torch_version)
 
     def crawl(self) -> List[WheelRecordCollection]:
         # indexed by coarse_torch_versiopn -> torch_version -> cuda_version -> python_version
@@ -22,11 +22,10 @@ class CondaCrawler(BaseCrawler, ABC):
         page = 1
         while True:
             found_unneeded_torch_version = False
-            filenames = self._fetch_filenames_by_page(page=page)
-            filtered_filenames = list(filter(self._filter_by_platform, filenames))
+            all_filenames_links = self._fetch_filenames_by_page(page=page)
+            filtered_filenames_links = list(filter(self._filter_by_platform, all_filenames_links))
             
-            
-            for filename in filtered_filenames:
+            for filename, link in filtered_filenames_links:
                 # check if this is the last page
                 found_unneeded_torch_version = self._found_unneeded_torch_version(filename)
 
@@ -35,6 +34,9 @@ class CondaCrawler(BaseCrawler, ABC):
                 else:
                     # add wheel info by version
                     cuda_version, torch_version, py_version = self._parse_file_name_for_version(filename)
+
+                    if torch_version in self.exclude_torch_version:
+                        continue
 
                     coarse_torch_version = '.'.join(torch_version.split('.')[:2])
 
@@ -47,7 +49,7 @@ class CondaCrawler(BaseCrawler, ABC):
                     if cuda_version not in wheel_info[coarse_torch_version][torch_version]:
                         wheel_info[coarse_torch_version][torch_version][cuda_version] = dict()
 
-                    wheel_info[coarse_torch_version][torch_version][cuda_version][py_version] = filename
+                    wheel_info[coarse_torch_version][torch_version][cuda_version][py_version] = (filename, link)
 
             if found_unneeded_torch_version:
                 break
@@ -76,8 +78,8 @@ class CondaCrawler(BaseCrawler, ABC):
             for torch_version, cuda_versioned_wheel_info in torch_versioned_wheel_info.items():
                 for cuda_version, python_versioned_wheel_info in cuda_versioned_wheel_info.items():
                     wheel_record_list = []
-                    for python_version, filename in python_versioned_wheel_info.items():
-                        url = self.get_download_url(filename)
+                    for python_version, (filename, link) in python_versioned_wheel_info.items():
+                        url = self.get_download_url(link)
                         record = WheelRecord(method=Method.CONDA, url=url, py_ver=python_version, flags=self.flags)        
                         wheel_record_list.append(record)
                     record_collection = WheelRecordCollection(torch_ver=torch_version, cuda_ver=cuda_version, records=wheel_record_list)
@@ -89,7 +91,7 @@ class CondaCrawler(BaseCrawler, ABC):
         paged_url = f'{self.crawl_src}?page={page}'
         page_text = requests.get(paged_url).text
         soup = BeautifulSoup(page_text)
-        form = all_a_links = soup.find('form', {'id': 'fileForm'})
+        form = soup.find('form', {'id': 'fileForm'})
         all_table_rows = form.find_all('tr')
         
         # ignore the header row
@@ -107,14 +109,16 @@ class CondaCrawler(BaseCrawler, ABC):
         all_table_rows = list(filter(_filter_by_download, all_table_rows))
 
         # get all download filenames
-        def _map_to_filename(tr):
+        def _extract_filename_and_link(tr):
             filename = tr.find_all('td')[3].find_all('a')[-1].text
-            return filename
+            href = tr.find_all('td')[3].find_all('a')[-1]['href']
+            return filename, href
         
-        all_filenames = list(map(_map_to_filename, all_table_rows))
-        return all_filenames
+        all_filenames_links = list(map(_extract_filename_and_link, all_table_rows))
+        return all_filenames_links
 
-    def _filter_by_platform(self, filename):
+    def _filter_by_platform(self, filename_and_link):
+        filename, link = filename_and_link
         if 'linux' not in filename or 'cuda' not in filename:
             return False
         return True
@@ -130,12 +134,12 @@ class CondaCrawler(BaseCrawler, ABC):
 
 class PyTorchCondaChannelCrawler(CondaCrawler):
 
-    def __init__(self, min_torch_version, min_cuda_version) -> None:
+    def __init__(self, min_torch_version, min_cuda_version, exclude_torch_version) -> None:
         name = 'conda'
         crawl_src = 'https://anaconda.org/pytorch/pytorch/files'
-        download_prefix = 'https://anaconda.org/pytorch/pytorch/1.11.0/download'
+        download_prefix = 'https://anaconda.org'
         flags = ['-c', 'pytorch']
-        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version, flags)
+        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version, exclude_torch_version, flags)
 
     def _parse_file_name_for_version(self, filename):
         version_parts = filename.split('/')[1].split('-')
@@ -145,12 +149,12 @@ class PyTorchCondaChannelCrawler(CondaCrawler):
         return cuda_version, torch_version, py_version
 
 class CondaForgeCrawler(CondaCrawler):
-    def __init__(self, min_torch_version, min_cuda_version) -> None:
+    def __init__(self, min_torch_version, min_cuda_version, exclude_torch_version) -> None:
         name = 'conda'
         crawl_src = 'https://anaconda.org/conda-forge/pytorch/files'
-        download_prefix = 'https://anaconda.org/conda-forge/pytorch/1.11.0/download'
+        download_prefix = 'https://anaconda.org'
         flags = ['-c', 'conda-forge']
-        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version, flags)
+        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version, exclude_torch_version, flags)
 
     def _parse_file_name_for_version(self, filename):
         version_parts = filename.split('/')[1].split('-')

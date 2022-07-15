@@ -10,11 +10,11 @@ from packaging import version
 
 class PipCrawler(BaseCrawler):
 
-    def __init__(self, min_torch_version, min_cuda_version) -> None:
+    def __init__(self, min_torch_version, min_cuda_version, exclude_torch_version) -> None:
         name = 'conda'
         crawl_src = 'https://download.pytorch.org/whl/torch_stable.html'
         download_prefix = 'https://download.pytorch.org/whl'
-        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version)
+        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version, exclude_torch_version)
 
     def crawl(self) -> List[WheelRecordCollection]:
         all_wheel_urls = self._fetch_all_wheel_urls()
@@ -27,6 +27,9 @@ class PipCrawler(BaseCrawler):
         # order by version
         for filename, href in filtered_wheel_urls:
             cuda_version, torch_version, py_version = self._parse_filename(filename)
+
+            if torch_version in self.exclude_torch_version:
+                continue
 
             if torch_version not in collated_records:
                 collated_records[torch_version] = dict()

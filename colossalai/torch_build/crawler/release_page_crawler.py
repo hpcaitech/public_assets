@@ -9,11 +9,11 @@ PYTYHON_VERSIONS = ['3.6', '3.7', '3.8', '3.9']
 
 class ReleasePageCrawler(BaseCrawler):
 
-    def __init__(self, min_torch_version, min_cuda_version) -> None:
+    def __init__(self, min_torch_version, min_cuda_version, exclude_torch_version) -> None:
         name = 'release_page'
         crawl_src = 'https://pytorch.org/get-started/previous-versions/'
         download_prefix = 'nil'
-        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version)
+        super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version, exclude_torch_version)
 
     def crawl(self) -> List[WheelRecordCollection]:
         page_text = requests.get('https://pytorch.org/get-started/previous-versions').text
@@ -37,6 +37,10 @@ class ReleasePageCrawler(BaseCrawler):
         results = []
         for info in filtered_installation_info:
             torch_version, cuda_version, flags = info
+
+            if torch_version in self.exclude_torch_version:
+                continue
+                    
             record_list = []
             for py_ver in PYTYHON_VERSIONS:
                 record = WheelRecord(method=Method.CONDA, url='nil', py_ver=py_ver, flags=flags)
