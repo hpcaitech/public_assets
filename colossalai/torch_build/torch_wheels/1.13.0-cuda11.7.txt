@@ -1,0 +1,5 @@
+pip	https://download.pytorch.org/whl/cu117/torch-1.13.0%2Bcu117-cp310-cp310-linux_x86_64.whl	3.10
+pip	https://download.pytorch.org/whl/cu117/torch-1.13.0%2Bcu117-cp311-cp311-linux_x86_64.whl	3.11
+pip	https://download.pytorch.org/whl/cu117/torch-1.13.0%2Bcu117-cp37-cp37m-linux_x86_64.whl	3.7
+pip	https://download.pytorch.org/whl/cu117/torch-1.13.0%2Bcu117-cp38-cp38-linux_x86_64.whl	3.8
+pip	https://download.pytorch.org/whl/cu117/torch-1.13.0%2Bcu117-cp39-cp39-linux_x86_64.whl	3.9
