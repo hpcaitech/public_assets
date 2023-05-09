@@ -5,7 +5,7 @@ from .wheel_record import WheelRecord, WheelRecordCollection, Method
 from typing import List, Tuple
 from packaging import version
 
-PYTYHON_VERSIONS = ['3.6', '3.7', '3.8', '3.9']
+PYTHON_VERSIONS = ['3.6', '3.7', '3.8', '3.9']
 
 class ReleasePageCrawler(BaseCrawler):
 
@@ -42,7 +42,7 @@ class ReleasePageCrawler(BaseCrawler):
                 continue
                     
             record_list = []
-            for py_ver in PYTYHON_VERSIONS:
+            for py_ver in PYTHON_VERSIONS:
                 record = WheelRecord(method=Method.CONDA, url='nil', py_ver=py_ver, flags=flags)
                 record_list.append(record)
             record_collection = WheelRecordCollection(torch_ver=torch_version, cuda_ver=cuda_version, records=record_list)

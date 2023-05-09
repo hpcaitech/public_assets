@@ -1,7 +1,7 @@
 from packaging import version
 
 
-def has_larger_or_euqal_cuda_version(ver1, ver2):
+def has_larger_or_equal_cuda_version(ver1, ver2):
     def _parse_version(ver):
         if '.' in ver:
             major, minor = ver.split('.')

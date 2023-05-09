@@ -4,7 +4,7 @@ from .wheel_record import WheelRecord, WheelRecordCollection, Method
 from typing import List
 from bs4 import BeautifulSoup
 import re
-from .utils import has_larger_or_euqal_cuda_version, has_larger_or_equal_torch_version
+from .utils import has_larger_or_equal_cuda_version, has_larger_or_equal_torch_version
 from packaging import version
 
 
@@ -95,7 +95,7 @@ class PipCrawler(BaseCrawler):
         filename = url_info[0]
         cuda_version, torch_version, py_version = self._parse_filename(filename)
 
-        if not has_larger_or_euqal_cuda_version(cuda_version, self.min_cuda_version):
+        if not has_larger_or_equal_cuda_version(cuda_version, self.min_cuda_version):
             return False
         if not has_larger_or_equal_torch_version(torch_version, self.min_torch_version):
             return False
