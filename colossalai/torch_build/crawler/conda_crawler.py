@@ -14,7 +14,7 @@ class CondaCrawler(BaseCrawler, ABC):
         super().__init__(name, crawl_src, download_prefix, min_torch_version, min_cuda_version, exclude_torch_version)
 
     def crawl(self) -> List[WheelRecordCollection]:
-        # indexed by coarse_torch_versiopn -> torch_version -> cuda_version -> python_version
+        # indexed by coarse_torch_version -> torch_version -> cuda_version -> python_version
         # coarse_torch_version only includes the major and minor version
         wheel_info = dict()
 
