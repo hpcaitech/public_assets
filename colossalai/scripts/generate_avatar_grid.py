@@ -53,8 +53,8 @@ def crop_avatar_into_circle(img: Image.Image):
 def create_img_grid(img_list, num_cols, img_size, spacing=0):
     num_img = len(img_list)
     num_rows = math.ceil(num_img / num_cols)
-    img_height = num_rows * img_size + spacing * (num_rows - 1)
-    img_width = num_cols * img_size + spacing * (num_cols - 1)
+    img_height = num_rows * img_size + spacing * max(0, num_rows - 1)
+    img_width = num_cols * img_size + spacing * max(0, num_cols - 1)
 
     output_img = Image.new('RGBA', (img_width, img_height), (255, 0, 0, 0))
 
